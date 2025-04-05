@@ -26,6 +26,13 @@ interface Props {
     };
   }[];
   isComment?: boolean;
+  image?: {
+    _id: string;
+    image: {
+      data: Buffer;
+      contentType: string;
+    };
+  };
 }
 
 function ThreadCard({
@@ -38,7 +45,14 @@ function ThreadCard({
   createdAt,
   comments,
   isComment,
+  image,
 }: Props) {
+  const imageUrl = image?.image?.data
+    ? `data:${image.image.contentType};base64,${Buffer.from(image.image.data).toString(
+        "base64"
+      )}`
+    : null;
+
   return (
     <article
       className={`flex w-full flex-col rounded-xl ${
@@ -68,6 +82,18 @@ function ThreadCard({
             </Link>
 
             <p className='mt-2 text-small-regular text-light-2'>{content}</p>
+
+            {imageUrl && (
+              <div className='mt-4 w-full max-w-lg'>
+                <Image
+                  src={imageUrl}
+                  alt='Thread image'
+                  width={480}
+                  height={480}
+                  className='rounded-lg object-cover'
+                />
+              </div>
+            )}
 
             <div className={`${isComment && "mb-10"} mt-5 flex flex-col gap-3`}>
               <div className='flex gap-3.5'>
@@ -123,18 +149,20 @@ function ThreadCard({
         />
       </div>
 
-      {!isComment && comments.length > 0 && (
+      {!isComment && comments?.length > 0 && (
         <div className='ml-1 mt-3 flex items-center gap-2'>
-          {comments.slice(0, 2).map((comment, index) => (
-            <Image
-              key={index}
-              src={comment.author.image}
-              alt={`user_${index}`}
-              width={24}
-              height={24}
-              className={`${index !== 0 && "-ml-5"} rounded-full object-cover`}
-            />
-          ))}
+          {comments.slice(0, 2).map((comment, index) =>
+            comment?.author?.image ? (
+              <Image
+                key={index}
+                src={comment.author.image}
+                alt={`user_${index}`}
+                width={24}
+                height={24}
+                className={`${index !== 0 && "-ml-5"} rounded-full object-cover`}
+              />
+            ) : null
+          )}
 
           <Link href={`/thread/${id}`}>
             <p className='mt-1 text-subtle-medium text-gray-1'>
