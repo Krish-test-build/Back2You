@@ -1,5 +1,6 @@
 "use server";
 
+import mongoose from "mongoose"; // Add this import
 import { FilterQuery, SortOrder } from "mongoose";
 
 import Community from "../models/community.model";
@@ -45,6 +46,49 @@ export async function createCommunity(
   } catch (error) {
     // Handle any errors
     console.error("Error creating community:", error);
+    throw error;
+  }
+}
+
+export async function createCommunityFromForm({
+  name,
+  username,
+  image,
+  bio,
+  createdById,
+}: {
+  name: string;
+  username: string;
+  image: string;
+  bio: string;
+  createdById: string;
+}) {
+  try {
+    connectToDB();
+
+    const user = await User.findOne({ id: createdById });
+
+    if (!user) {
+      throw new Error("User not found");
+    }
+
+    const newCommunity = new Community({
+      id: new mongoose.Types.ObjectId().toString(),
+      name,
+      username,
+      image,
+      bio,
+      createdBy: user._id,
+    });
+
+    const createdCommunity = await newCommunity.save();
+
+    user.communities.push(createdCommunity._id);
+    await user.save();
+
+    return createdCommunity;
+  } catch (error) {
+    console.error("Error creating community from form:", error);
     throw error;
   }
 }
