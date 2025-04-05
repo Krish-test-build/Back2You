@@ -1,6 +1,3 @@
-Here’s a clean and professional `README.md` file for your **Back2You** – Lost & Found Threads Application using the **MERN Stack + Clerk**:
-
----
 
 ```markdown
 # 🧭 Back2You – Lost & Found Threads for Campus
