@@ -46,11 +46,13 @@ export default async function Home() {
         )}
       </section>
 
-      <Pagination
-        path='/'
-        pageNumber={1}
-        isNext={result.isNext}
-      />
+      {result && (
+        <Pagination
+          path='/'
+          pageNumber={1}
+          isNext={result.isNext}
+        />
+      )}
     </>
   );
 }

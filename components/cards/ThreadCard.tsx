@@ -1,5 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
+import { Buffer } from "buffer";
 
 import { formatDateString } from "@/lib/utils";
 import DeleteThread from "../forms/DeleteThread";
@@ -48,7 +49,7 @@ function ThreadCard({
   image,
 }: Props) {
   const imageUrl = image?.image?.data
-    ? `data:${image.image.contentType};base64,${Buffer.from(image.image.data).toString(
+    ? `data:${image.image.contentType};base64,${image.image.data.toString(
         "base64"
       )}`
     : null;
