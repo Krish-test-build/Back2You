@@ -80,12 +80,6 @@ yarn dev
 
 ---
 
-## 📸 Screenshots
-
-> (Add screenshots or screen recording here after the app is styled & functional.)
-
----
-
 ## 📍 Future Improvements
 
 - 🔔 Notification system when a match is found
