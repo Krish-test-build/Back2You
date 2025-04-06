@@ -1,7 +1,8 @@
 // Resource: https://clerk.com/docs/nextjs/middleware#auth-middleware
 // Copy the middleware code as it is from the above resource
+// middleware.ts
+import { authMiddleware } from "@clerk/nextjs/server"; // ✅ Correct for App Router
 
-import { authMiddleware } from "@clerk/nextjs";
 
 export default authMiddleware({
   // An array of public routes that don't require authentication.
