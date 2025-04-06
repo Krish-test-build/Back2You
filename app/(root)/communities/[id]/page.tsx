@@ -1,3 +1,5 @@
+// app/(root)/communities/[id]/page.tsx
+
 import Image from "next/image";
 import { currentUser } from "@clerk/nextjs";
 
@@ -10,7 +12,14 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
 import { fetchCommunityDetails } from "@/lib/actions/community.actions";
 
-async function Page({ params }: { params: { id: string } }) {
+// ✅ Type definition for props
+type Props = {
+  params: {
+    id: string;
+  };
+};
+
+async function Page({ params }: Props) {
   const user = await currentUser();
   if (!user) return null;
 
